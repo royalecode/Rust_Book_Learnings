@@ -1,3 +1,4 @@
+// OWNERSHIP
 // fn main() {
 //     // let mut s: String = String::from("hello");
 //     // s.push_str(", world!"); // push_str() appends a literal to a String
@@ -42,7 +43,6 @@
 //     println!("{}", some_integer);
 // } // Here, some_integer goes out of scope. Nothing special happens.
 
-
 // fn main() {
 //     let s1 = gives_ownership();         // gives_ownership moves its return
 //                                         // value into s1
@@ -73,16 +73,112 @@
 //     a_string  // a_string is returned and moves out to the calling function
 // }
 
+// REFERENCES AND BORROWING
+//fn main() {
+// without reference
+// let s1 = String::from("hello");
+
+// let (s2, len) = calculate_length(s1);
+
+// println!("The length of '{}' is {}.", s2, len);
+
+// with reference
+// let mut s1 = String::from("hello");
+
+// // let len = calculate_length(&s1);
+
+// // println!("The length of '{}' is {}.", s1, len);
+// change(&mut s1);
+// println!("{}", s1);
+
+// let mut s = String::from("hello");
+
+// // let r1 = &mut s;
+// {
+//     let r1 = &mut s;
+// } // r1 goes out of scope here, so we can make a new reference with no problems.
+// let r2 = &mut s;
+
+// println!("{}, {}", r1, r2);
+//}
+
+// fn calculate_length(s: &String) -> usize {
+//     // let length = s.len(); // len() returns the length of a String
+//     // (s, length)
+//     s.len()
+// }
+
+// fn change(some_string: &mut String) {
+//     some_string.push_str(", world");
+// }
+
 fn main() {
-    let s1 = String::from("hello");
+    // let mut s = String::from("hello world");
+    // let index_word = first_word(&s);
+    // println!("The first word is: {}", &s[0..index_word]);
 
-    let (s2, len) = calculate_length(s1);
+    // let s = String::from("hello world");
 
-    println!("The length of '{}' is {}.", s2, len);
+    // let hello = &s[0..5];
+    // let world = &s[6..11];
+
+    // let word = first_word(&s);
+    // s.clear(); // error!
+    // println!("The first word is: {}", word)
+
+    let my_string = String::from("hello world");
+
+    // `first_word` works on slices of `String`s, whether partial or whole
+    let word = first_word(&my_string[0..6]);
+    println!("{}", word);
+
+    let word = first_word(&my_string[..]);
+    println!("{}", word);
+    // `first_word` also works on references to `String`s, which are equivalent
+    // to whole slices of `String`s
+    let word = first_word(&my_string);
+    println!("{}", word);
+
+    let my_string_literal = "hello world";
+
+    // `first_word` works on slices of string literals, whether partial or whole
+    let word = first_word(&my_string_literal[0..6]);
+    println!("{}", word);
+    let word = first_word(&my_string_literal[..]);
+    println!("{}", word);
+
+    // Because string literals *are* string slices already,
+    // this works too, without the slice syntax!
+    let word = first_word(my_string_literal);
+    println!("{}", word);
+
+    let a = [1, 2, 3, 4, 5];
+
+    let slice = &a[1..3];
+
+    assert_eq!(slice, &[2, 3]);
 }
 
-fn calculate_length(s: String) -> (String, usize) {
-    let length = s.len(); // len() returns the length of a String
+// fn first_word(s: &String) -> usize {
+//     let bytes = s.as_bytes();
 
-    (s, length)
+//     for (i, &item) in bytes.iter().enumerate() {
+//         if item == b' ' {
+//             return i;
+//         }
+//     }
+
+//     s.len()
+// }
+
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i];
+        }
+    }
+
+    &s[..]
 }

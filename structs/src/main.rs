@@ -16,7 +16,7 @@ struct AlwaysEqual;
 fn main() {
     let mut user1 = User {
         active: true,
-        username: String::from("someusername123"),
+        username: String::from("someone"),   
         email: String::from("someone@example.com"),
         sign_in_count: 1,
     };
@@ -41,6 +41,7 @@ fn main() {
     let origin = Point(0, 0, 0);
 
     let subject = AlwaysEqual;
+    let object = AlwaysEqual;
 
 }
 

@@ -110,5 +110,7 @@ pub mod strings {
         for b in "नमस्ते".bytes() {
             println!("{}", b);
         }
+
+        let hello = "Здравствуйте";
     }
 }
